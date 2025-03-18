@@ -2,10 +2,14 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
+  "prisma": {
+    "schema": "./src/prisma/schema.prisma"
+  },
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "start": "node dist/server.js",
     "build": "tsc",
+    "db:deploy": "npx prisma generate && npx prisma migrate deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
