@@ -1,6 +1,7 @@
 import { Container, Typography, Box } from "@mui/material";
+import UrlShortenerForm from "./components/UrlShortenerForm";
 
-function App() {
+const App = () => {
   return (
     <Container maxWidth="sm">
       <Box mt={5} textAlign="center">
@@ -10,6 +11,7 @@ function App() {
         <Typography variant="body1" color="textSecondary">
           Enter the URL to shorten
         </Typography>
+        <UrlShortenerForm />
       </Box>
     </Container>
   );
