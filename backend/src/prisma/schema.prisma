@@ -18,4 +18,14 @@ model Url {
   slug        String   @unique
   originalUrl String
   createdAt   DateTime @default(now())
+  Visit       Visit[]
+}
+
+model Visit {
+  id        String   @id @default(uuid())
+  url       Url      @relation(fields: [urlId], references: [id], onDelete: Cascade)
+  urlId     String
+  ip        String?
+  userAgent String?
+  createdAt DateTime @default(now())
 }
