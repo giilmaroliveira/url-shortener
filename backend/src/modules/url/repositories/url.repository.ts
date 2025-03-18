@@ -7,7 +7,7 @@ class UrlRepository {
 
   static async findUrlBySlug(slug: string) {
     const url = await prisma.url.findUnique({ where: { slug } });
-    return url?.originalUrl || null;
+    return url || null;
   }
 }
 
