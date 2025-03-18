@@ -7,21 +7,28 @@ class UrlController {
       const { originalUrl } = req.body;
       const shortUrl = await UrlService.createShortUrl(originalUrl);
       res.json({ shortUrl });
-    } catch (error) {
-      res.status(400).json({ error: error.message });
+    } catch (error: unknown) {
+      console.error(error);
+      const errMsg = error instanceof Error ? error.message : "Something went wrong";
+      res.status(400).json({ error: errMsg });
     }
   }
 
-  static async redirect(req: Request, res: Response) {
+  static async redirect(req: Request, res: Response): Promise<void> {
     try {
       const { slug } = req.params;
       const originalUrl = await UrlService.getOriginalUrl(slug);
-      if (!originalUrl) return res.status(404).send("Not Found");
+      if (!originalUrl) {
+        res.status(404).send("Not Found");
+        return;
+      }
       res.redirect(originalUrl);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    } catch (error: unknown) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
   }
+  
 }
 
 export default UrlController;

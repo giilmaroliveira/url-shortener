@@ -5,10 +5,10 @@ const urlSchema = z.object({
   originalUrl: z.string().url({ message: "Invalid URL format" })
 });
 
-export const validateUrl = (req: Request, res: Response, next: NextFunction) => {
+export const validateUrl = (req: Request, res: Response, next: NextFunction): void => {
   const result = urlSchema.safeParse(req.body);
   if (!result.success) {
-    return res.status(400).json({ error: result.error.errors[0].message });
+    return next(new Error(result.error.errors[0].message));
   }
   next();
 };
