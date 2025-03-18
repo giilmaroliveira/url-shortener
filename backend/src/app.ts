@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import urlRoutes from "./modules/url/routes";
+import visitRoutes from "./modules/visit/routes";
 import errorHandler from "./middlewares/errorHandler";
 import rateLimiter from "./middlewares/rateLimiter";
 import loggerMiddleware from "./middlewares/loggerMiddleware";
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(loggerMiddleware);
 app.use(rateLimiter);
 app.use("/api/url", urlRoutes);
+app.use("/api/visit", visitRoutes);
 app.use(errorHandler);
 
 export default app;
