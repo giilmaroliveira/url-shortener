@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
 import UrlService from "../services/url.service";
+import logger from "../../../config/logger";
 
 class UrlController {
   static async shortenUrl(req: Request, res: Response) {
     try {
       const { originalUrl } = req.body;
       const shortUrl = await UrlService.createShortUrl(originalUrl);
+      logger.info(`URL shortned: ${originalUrl} -> ${shortUrl.slug}`);
       res.json({ shortUrl });
     } catch (error: unknown) {
-      console.error(error);
+      logger.error(`Error shortening URL: ${error}`);
       const errMsg = error instanceof Error ? error.message : "Something went wrong";
       res.status(400).json({ error: errMsg });
     }
@@ -19,12 +21,13 @@ class UrlController {
       const { slug } = req.params;
       const originalUrl = await UrlService.getOriginalUrl(slug);
       if (!originalUrl) {
+        logger.warn(`Invalid slug access: ${slug}`);
         res.status(404).send("Not Found");
         return;
       }
       res.redirect(originalUrl);
     } catch (error: unknown) {
-      console.error(error);
+      logger.error(`Redirect error ${error}`);
       res.status(500).json({ error: "Internal Server Error" });
     }
   }

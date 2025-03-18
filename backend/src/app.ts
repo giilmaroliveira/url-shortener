@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import urlRoutes from "./modules/url/routes";
 import errorHandler from "./middlewares/errorHandler";
 import rateLimiter from "./middlewares/rateLimiter";
+import loggerMiddleware from "./middlewares/loggerMiddleware";
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(loggerMiddleware);
 app.use(rateLimiter);
 app.use("/api/url", urlRoutes);
 app.use(errorHandler);
