@@ -7,7 +7,7 @@ class VisitController {
     try {
       const { slug } = req.params;
       const visitCount = await VisitService.getVisitStats(slug);
-      if (!visitCount) {
+      if (visitCount === null) {
         logger.warn(`Invalid slug: ${slug}`);
         res.status(404).json({ error: "URL not found" });
         return;
