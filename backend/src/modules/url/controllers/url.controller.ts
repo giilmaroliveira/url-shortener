@@ -6,7 +6,8 @@ class UrlController {
   static async shortenUrl(req: Request, res: Response) {
     try {
       const { originalUrl } = req.body;
-      const shortUrl = await UrlService.createShortUrl(originalUrl);
+      const userId = req.user?.id || "";
+      const shortUrl = await UrlService.createShortUrl(originalUrl, userId);
       logger.info(`URL shortned: ${originalUrl} -> ${shortUrl.slug}`);
       res.json({ shortUrl });
     } catch (error: unknown) {
@@ -38,6 +39,12 @@ class UrlController {
 
   static async getAll(req: Request, res: Response): Promise<void> {
     const urls = await UrlService.getAll();
+    res.json(urls)
+  }
+
+  static async getUserUrls(req: Request, res: Response): Promise<void> {
+    const userId = req.user?.id || "";
+    const urls = await UrlService.getByUserId(userId);
     res.json(urls)
   }
 

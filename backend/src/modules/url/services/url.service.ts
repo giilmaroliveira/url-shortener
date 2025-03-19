@@ -3,9 +3,9 @@ import VisitRepository from "../../visit/repositories/visit.repository";
 import UrlRepository from "../repositories/url.repository";
 
 class UrlService {
-  static async createShortUrl(originalUrl: string) {
+  static async createShortUrl(originalUrl: string, userId: string) {
     const slug = generateSlug();
-    return await UrlRepository.saveUrl(slug, originalUrl);
+    return await UrlRepository.saveUrl(slug, originalUrl, userId);
   }
 
   static async getOriginalUrl(slug: string, ip?: string, userAgent?: string) {
@@ -15,8 +15,12 @@ class UrlService {
     return url.originalUrl;
   }
 
-  static getAll() {
+  static async getAll() {
     return UrlRepository.findAll();
+  }
+
+  static async getByUserId(userId: string) {
+    return UrlRepository.findUrlsByUserId(userId);
   }
 }
 

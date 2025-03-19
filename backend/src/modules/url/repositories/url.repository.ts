@@ -1,8 +1,8 @@
 import prisma from "../../../database/prismaClient";
 
 class UrlRepository {
-  static async saveUrl(slug: string, originalUrl: string) {
-    return prisma.url.create({ data: { slug, originalUrl } });
+  static async saveUrl(slug: string, originalUrl: string, userId: string) {
+    return prisma.url.create({ data: { slug, originalUrl, userId } });
   }
 
   static async findUrlBySlug(slug: string) {
@@ -12,6 +12,10 @@ class UrlRepository {
 
   static async findAll() {
     return prisma.url.findMany();
+  }
+
+  static async findUrlsByUserId(userId: string) {
+    return prisma.url.findMany({ where: { userId } })
   }
 }
 
