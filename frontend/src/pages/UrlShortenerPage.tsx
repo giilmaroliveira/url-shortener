@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Box, Button, TextField, Typography, Tooltip, Container } from "@mui/material";
 import { ContentCopy } from "@mui/icons-material";
 import api from "../services/api";
+import { useNotification } from "../context/NotificationContext";
 
 const UrlShortenerPage = () => {
   const [originalUrl, setOriginalUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [error, setError] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
+  const { showNotification } = useNotification();
   const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,7 +29,7 @@ const UrlShortenerPage = () => {
       });
       setShortUrl(`${API_BASE_URL}/url/${response.data.shortUrl.slug}`);
     } catch (err) {
-      setError("Failed to shorten the URL. Please try again.");
+      showNotification("Failed to shorten the URL. Please try again.", "error");
     }
   };
 

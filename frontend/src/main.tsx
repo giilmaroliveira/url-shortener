@@ -5,14 +5,17 @@ import { CssBaseline } from '@mui/material';
 import App from './App.tsx';
 import theme from './theme.ts';
 import { BrowserRouter } from 'react-router-dom';
+import { NotificationProvider } from './context/NotificationContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <App />
-      </ThemeProvider>
+      <NotificationProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <App />
+        </ThemeProvider>
+      </NotificationProvider>
     </BrowserRouter>
   </StrictMode>,
 )
