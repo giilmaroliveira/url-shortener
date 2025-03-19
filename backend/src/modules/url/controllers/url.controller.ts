@@ -35,7 +35,12 @@ class UrlController {
       res.status(500).json({ error: "Internal Server Error" });
     }
   }
-  
+
+  static async getAll(req: Request, res: Response): Promise<void> {
+    const urls = await UrlService.getAll();
+    res.json(urls)
+  }
+
 }
 
 export default UrlController;

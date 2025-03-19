@@ -14,6 +14,10 @@ class UrlService {
     await VisitRepository.logVisit(url.id, ip, userAgent);
     return url.originalUrl;
   }
+
+  static getAll() {
+    return UrlRepository.findAll();
+  }
 }
 
 export default UrlService;

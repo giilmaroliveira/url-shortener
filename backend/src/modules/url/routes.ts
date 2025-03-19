@@ -5,6 +5,7 @@ import { validateUrl } from "./validators/url.validator";
 const router = Router();
 
 router.post("/", validateUrl, UrlController.shortenUrl);
+router.get("/", UrlController.getAll);
 router.get("/:slug", UrlController.redirect);
 
 export default router;

@@ -9,6 +9,10 @@ class UrlRepository {
     const url = await prisma.url.findUnique({ where: { slug } });
     return url || null;
   }
+
+  static async findAll() {
+    return prisma.url.findMany();
+  }
 }
 
 export default UrlRepository;
