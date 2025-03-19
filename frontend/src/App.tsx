@@ -1,28 +1,22 @@
-import { Routes, Route, Link } from "react-router-dom";
-import { AppBar, Toolbar, Button } from "@mui/material";
+import { Routes, Route } from "react-router-dom";
 import StatsPage from "./pages/StatsPage";
 import UrlShortenerPage from "./pages/UrlShortenerPage";
 import UrlHistoryPage from "./pages/UrlHistoryPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import LoginPage from "./pages/LoginPage";
+import Layout from "./components/Layout";
 
 const App = () => {
   return (
     <>
-      <AppBar position="static" sx={{ mb: 4 }}>
-        <Toolbar>
-          <Button color="inherit" component={Link} to="/">
-            Home
-          </Button>
-          <Button color="inherit" component={Link} to="/history">
-            History
-          </Button>
-        </Toolbar>
-      </AppBar>
-
       <Routes>
-        <Route path="/" element={<UrlShortenerPage />} />
-        <Route path="/stats/:slug" element={<StatsPage />} />
-        <Route path="/history" element={<UrlHistoryPage />} />
+        <Route path="/login" element={<LoginPage />} />
+
+        <Route element={<Layout />}>
+          <Route path="/" element={<UrlShortenerPage />} />
+          <Route path="/stats/:slug" element={<StatsPage />} />
+          <Route path="/my-urls" element={<UrlHistoryPage />} />
+        </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
