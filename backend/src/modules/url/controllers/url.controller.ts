@@ -11,6 +11,7 @@ class UrlController {
     this.redirect = this.redirect.bind(this);
     this.getAll = this.getAll.bind(this);
     this.getUserUrls = this.getUserUrls.bind(this);
+    this.updateSlug = this.updateSlug.bind(this);
   }
   async shortenUrl(req: Request, res: Response) {
     try {
@@ -55,6 +56,26 @@ class UrlController {
     const userId = req.user?.id || "";
     const urls = await this.urlService.getByUserId(userId);
     res.json(urls)
+  }
+
+  async updateSlug(req: Request, res: Response): Promise<void> {
+    try {
+      const { newSlug } = req.body;
+      const { id } = req.params;
+      const userId = req.user?.id || "";
+
+      const updatedUrl = await this.urlService.updateSlug(id, newSlug, userId);
+      if (!updatedUrl) {
+        res.status(400).json({ error: 'Slug already in use.' });
+        return;
+      }
+
+      res.json({ message: "Slug updated successfully", url: updatedUrl })
+    } catch (error) {
+      logger.error(`Error updating slug: ${error}`);
+      const errMsg = error instanceof Error ? error.message : "Something went wrong";
+      res.status(500).json({ error: errMsg });
+    }
   }
 
 }

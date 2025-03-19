@@ -17,6 +17,13 @@ class UrlRepository {
   async findUrlsByUserId(userId: string) {
     return prisma.url.findMany({ where: { userId } })
   }
+
+  async updateUrl(id: string, newSlug: string, userId: string) {
+    return prisma.url.update({
+      where: { id, userId },
+      data: { slug: newSlug }
+    })
+  }
 }
 
 export default UrlRepository;

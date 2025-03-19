@@ -11,6 +11,7 @@ class UrlService {
     this.getOriginalUrl = this.getOriginalUrl.bind(this);
     this.getAll = this.getAll.bind(this);
     this.getByUserId = this.getByUserId.bind(this);
+    this.updateSlug = this.updateSlug.bind(this);
   }
   async createShortUrl(originalUrl: string, userId: string) {
     const slug = generateSlug();
@@ -30,6 +31,13 @@ class UrlService {
 
   async getByUserId(userId: string) {
     return this.urlRepository.findUrlsByUserId(userId);
+  }
+
+  async updateSlug(id: string, newSlug: string, userId: string) {
+    const existingUrl = await this.urlRepository.findUrlBySlug(newSlug);
+    if (existingUrl) return null;
+
+    return this.urlRepository.updateUrl(id, newSlug, userId);
   }
 }
 

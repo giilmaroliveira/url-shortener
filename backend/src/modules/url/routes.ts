@@ -14,5 +14,6 @@ router.post("/", validateUrl, authMiddleware, urlController.shortenUrl);
 router.get("/", authMiddleware, urlController.getAll);
 router.get("/my-urls", authMiddleware, urlController.getUserUrls);
 router.get("/:slug", urlController.redirect);
+router.patch("/:id", authMiddleware, urlController.updateSlug);
 
 export default router;
