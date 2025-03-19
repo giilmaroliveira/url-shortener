@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { TextField, Button, Box, Typography, Container, Alert } from "@mui/material";
 import api from "../services/api";
 
@@ -59,6 +59,11 @@ const LoginPage = () => {
             Login
           </Button>
         </form>
+      </Box>
+      <Box mt={2} textAlign="center">
+        <Typography variant="body2">
+          Don't have an account? <Link to="/register">Register here</Link>
+        </Typography>
       </Box>
     </Container>
   );
