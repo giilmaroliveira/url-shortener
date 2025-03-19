@@ -1,7 +1,7 @@
 services:
-  postgres:
-    image: postgres:14
-    container_name: url_shortener_db
+  db:
+    image: postgres:16-alpine
+    container_name: postgres_db
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -10,24 +10,44 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - url_shortener_network
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: url_shortener_backend
+    container_name: backend
     restart: always
-    environment:
-      DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/url_shortener"
-      PORT: 3000
-    depends_on:
-      - postgres
     ports:
       - "3000:3000"
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/url_shortener"
+      PORT: 3000
+      JWT_SECRET: "your-secret-here"
+    networks:
+      - url_shortener_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://backend:3000
+    networks:
+      - url_shortener_network
 
 volumes:
-  pgdata:
+  postgres_data:
+
+networks:
+  url_shortener_network:
