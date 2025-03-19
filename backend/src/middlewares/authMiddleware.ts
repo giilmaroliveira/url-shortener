@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
+import { env } from "../config/env";
 
-const SECRET = process.env.JWT_SECRET || "";
+const SECRET = env.JWT_SECRET;
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   const token = req.headers.authorization?.split(" ")[1];

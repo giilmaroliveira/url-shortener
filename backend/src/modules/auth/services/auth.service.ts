@@ -1,8 +1,9 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import UserRepository from "../repositories/user.repository";
+import { env } from "../../../config/env";
 
-const SECRET = process.env.JWT_SECRET || "";
+const SECRET = env.JWT_SECRET;
 
 class AuthService {
   async registerUser(email: string, password: string) {
