@@ -13,6 +13,6 @@ const urlController = new UrlController(urlService);
 router.post("/", validateUrl, authMiddleware, urlController.shortenUrl);
 router.get("/", authMiddleware, urlController.getAll);
 router.get("/my-urls", authMiddleware, urlController.getUserUrls);
-router.get("/:slug", authMiddleware, urlController.redirect);
+router.get("/:slug", urlController.redirect);
 
 export default router;
