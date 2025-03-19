@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Button } from "@mui/material";
 import StatsPage from "./pages/StatsPage";
 import UrlShortenerPage from "./pages/UrlShortenerPage";
 import UrlHistoryPage from "./pages/UrlHistoryPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/" element={<UrlShortenerPage />} />
         <Route path="/stats/:slug" element={<StatsPage />} />
         <Route path="/history" element={<UrlHistoryPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );
