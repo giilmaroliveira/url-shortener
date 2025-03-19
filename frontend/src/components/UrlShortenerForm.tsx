@@ -1,16 +1,20 @@
 import { useState } from "react";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography, IconButton, Tooltip } from "@mui/material";
 import axios from "axios";
+import { ContentCopy } from "@mui/icons-material";
 
 const UrlShortenerForm = () => {
   const [originalUrl, setOriginalUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [error, setError] = useState("");
+  const [copySuccess, setCopySuccess] = useState(false);
+  const API_URL = `${import.meta.env.VITE_API_URL}/url`;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setShortUrl("");
+    setCopySuccess(false);
 
     if (!originalUrl.trim()) {
       setError("Please enter a valid URL.");
@@ -18,7 +22,7 @@ const UrlShortenerForm = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/api/url", {
+      const response = await axios.post(`${API_URL}`, {
         originalUrl
       });
       setShortUrl(response.data.shortUrl.slug);
@@ -28,7 +32,10 @@ const UrlShortenerForm = () => {
   };
 
   const handleCopy = () => {
-
+    navigator.clipboard.writeText(`${API_URL}/${shortUrl}`).then(() => {
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    })
   }
   return (
     <Box mt={4} textAlign="left">
@@ -49,11 +56,21 @@ const UrlShortenerForm = () => {
       </form>
 
       {shortUrl && (
-        <Box mt={3}>
-          <Typography variant="h6" color="success">
-            Success! Here's your short URL
+        <Box mt={3} textAlign="center">
+          <Typography variant="h6" color="success" sx={{ mb: 2 }}>
+            Success! Here's your short URL:
           </Typography>
-          <Typography variant="body1">{`http://localhost:3000/api/url/${shortUrl}`}</Typography>
+
+          <Box display="flex" alignItems="center" justifyContent="center" gap={2}>
+            <Typography variant="body1">
+              {`${API_URL}/${shortUrl}`}
+            </Typography>
+            <Tooltip title={copySuccess ? "Copied!" : "Copy"}>
+              <Button onClick={handleCopy} variant="outlined">
+                <ContentCopy /> Copy
+              </Button>
+            </Tooltip>
+          </Box>
         </Box>
       )}
     </Box>
