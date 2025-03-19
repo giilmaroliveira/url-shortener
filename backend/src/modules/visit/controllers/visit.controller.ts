@@ -3,10 +3,15 @@ import VisitService from "../services/visit.service";
 import logger from "../../../config/logger";
 
 class VisitController {
-  static async getVisitStats(req: Request, res: Response): Promise<void> {
+  private visitService: VisitService;
+  constructor(visitService: VisitService) {
+    this.visitService = visitService;
+    this.getVisitStats = this.getVisitStats.bind(this);
+  }
+  async getVisitStats(req: Request, res: Response): Promise<void> {
     try {
       const { slug } = req.params;
-      const visitCount = await VisitService.getVisitStats(slug);
+      const visitCount = await this.visitService.getVisitStats(slug);
       if (visitCount === null) {
         logger.warn(`Invalid slug: ${slug}`);
         res.status(404).json({ error: "URL not found" });
