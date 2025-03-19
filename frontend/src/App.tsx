@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import StatsPage from "./pages/StatsPage";
 import UrlShortenerPage from "./pages/UrlShortenerPage";
-import UrlHistoryPage from "./pages/UrlHistoryPage";
+import MyUrlsPage from "./pages/MyUrlsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import LoginPage from "./pages/LoginPage";
 import Layout from "./components/Layout";
@@ -15,7 +15,7 @@ const App = () => {
         <Route element={<Layout />}>
           <Route path="/" element={<UrlShortenerPage />} />
           <Route path="/stats/:slug" element={<StatsPage />} />
-          <Route path="/my-urls" element={<UrlHistoryPage />} />
+          <Route path="/my-urls" element={<MyUrlsPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

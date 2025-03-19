@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Box, Typography, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Container } from "@mui/material";
 import api from "../services/api";
 
-const UrlHistoryPage = () => {
+const MyUrlsPage = () => {
   const [urls, setUrls] = useState<{ slug: string; originalUrl: string; createdAt: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -28,7 +28,7 @@ const UrlHistoryPage = () => {
     <Container maxWidth="md">
       <Box mt={5} textAlign="center">
         <Typography variant="h5" color="primary" sx={{ mb: 2 }}>
-          Previously Shortened URLs
+          My URLs
         </Typography>
 
         {loading ? (
@@ -78,4 +78,4 @@ const UrlHistoryPage = () => {
   );
 };
 
-export default UrlHistoryPage;
+export default MyUrlsPage;
