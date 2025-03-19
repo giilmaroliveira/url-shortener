@@ -3,6 +3,7 @@ import { Box, Button, TextField, Typography, Tooltip, Container } from "@mui/mat
 import { ContentCopy } from "@mui/icons-material";
 import api from "../services/api";
 import { useNotification } from "../context/NotificationContext";
+import axios from "axios";
 
 const UrlShortenerPage = () => {
   const [originalUrl, setOriginalUrl] = useState("");
@@ -28,8 +29,14 @@ const UrlShortenerPage = () => {
         originalUrl
       });
       setShortUrl(`${API_BASE_URL}/url/${response.data.shortUrl.slug}`);
-    } catch (err) {
-      showNotification("Failed to shorten the URL. Please try again.", "error");
+    } catch (err: unknown) {
+      let errMessage = "Failed to shorten the URL. Please try again.";
+
+      if (axios.isAxiosError(err)) {
+        errMessage = err.response?.data?.error || errMessage;
+      }
+
+      showNotification(errMessage, "error");
     }
   };
 
