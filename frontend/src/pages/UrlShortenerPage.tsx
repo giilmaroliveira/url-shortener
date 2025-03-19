@@ -38,7 +38,7 @@ const UrlShortenerPage = () => {
     })
   }
   return (
-    <Container>
+    <Container maxWidth="sm">
       <Typography variant="h4" color="primary">
         URL Shortener
       </Typography>
