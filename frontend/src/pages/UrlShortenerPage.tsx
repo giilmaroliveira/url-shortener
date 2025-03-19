@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Box, Button, TextField, Typography, Tooltip, Container } from "@mui/material";
-import axios from "axios";
 import { ContentCopy } from "@mui/icons-material";
+import api from "../services/api";
 
 const UrlShortenerPage = () => {
   const [originalUrl, setOriginalUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [error, setError] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
-  const API_URL = `${import.meta.env.VITE_API_URL}/url`;
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,17 +22,17 @@ const UrlShortenerPage = () => {
     }
 
     try {
-      const response = await axios.post(`${API_URL}`, {
+      const response = await api.post("/url", {
         originalUrl
       });
-      setShortUrl(response.data.shortUrl.slug);
+      setShortUrl(`${API_BASE_URL}/url/${response.data.shortUrl.slug}`);
     } catch (err) {
       setError("Failed to shorten the URL. Please try again.");
     }
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(`${API_URL}/${shortUrl}`).then(() => {
+    navigator.clipboard.writeText(shortUrl).then(() => {
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
     })
@@ -68,7 +68,7 @@ const UrlShortenerPage = () => {
 
             <Box display="flex" alignItems="center" justifyContent="center" gap={2}>
               <Typography variant="body1">
-                {`${API_URL}/${shortUrl}`}
+                {shortUrl}
               </Typography>
               <Tooltip title={copySuccess ? "Copied!" : "Copy"}>
                 <Button onClick={handleCopy} variant="outlined">

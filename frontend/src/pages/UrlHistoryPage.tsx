@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
-import { Box, Typography, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Container } from "@mui/material";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { Box, Typography, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Container } from "@mui/material";
+import api from "../services/api";
 
 const UrlHistoryPage = () => {
   const [urls, setUrls] = useState<{ slug: string; originalUrl: string; createdAt: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const API_URL = `${import.meta.env.VITE_API_URL}/url`;
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchUrls = async () => {
       try {
-        const response = await axios.get(API_URL);
+        const response = await api.get("/url/my-urls");
         setUrls(response.data);
       } catch (err) {
         setError("Failed to load shortened URLs.");
@@ -52,7 +52,7 @@ const UrlHistoryPage = () => {
                 {urls.map((url) => (
                   <TableRow key={url.slug}>
                     <TableCell>
-                      <a href={`${API_URL}/${url.slug}`} target="_blank" rel="noopener noreferrer">
+                      <a href={`${API_BASE_URL}/url/${url.slug}`} target="_blank" rel="noopener noreferrer">
                         {url.slug}
                       </a>
                     </TableCell>

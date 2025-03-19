@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Typography, CircularProgress, Alert } from "@mui/material";
-import axios from "axios";
+import api from "../services/api";
 
 const StatsPage = () => {
   const { slug } = useParams();
@@ -12,7 +12,7 @@ const StatsPage = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/visit/${slug}/stats`);
+        const response = await api.get(`/visit/${slug}/stats`);
         setVisitCount(response.data.visitCount);
       } catch (err) {
         setError("Failed to fetch visit statistics.");
