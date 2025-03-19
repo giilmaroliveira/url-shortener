@@ -1,5 +1,5 @@
 import { generateSlug } from "../../../utils/slugGenerator";
-import VisitRepository from "../../visit/repository/visit.repository";
+import VisitRepository from "../../visit/repositories/visit.repository";
 import UrlRepository from "../repositories/url.repository";
 
 class UrlService {

@@ -1,5 +1,5 @@
 import UrlRepository from "../../url/repositories/url.repository";
-import VisitRepository from "../repository/visit.repository";
+import VisitRepository from "../repositories/visit.repository";
 
 class VisitService {
   static async getVisitStats(slug: string) {
