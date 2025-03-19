@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import UrlService from "../services/url.service";
 import logger from "../../../config/logger";
+import { validateUrlInput } from "../validators/url.validator";
 
 class UrlController {
   private urlService: UrlService;
@@ -15,6 +16,11 @@ class UrlController {
   }
   async shortenUrl(req: Request, res: Response) {
     try {
+      const validationError = validateUrlInput(req.body);
+      if (validationError) {
+        res.status(400).json({ error: validationError });
+        return;
+      }
       const { originalUrl } = req.body;
       const userId = req.user?.id || "";
       const shortUrl = await this.urlService.createShortUrl(originalUrl, userId);

@@ -1,14 +1,15 @@
-import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
 
 const urlSchema = z.object({
-  originalUrl: z.string().url({ message: "Invalid URL format" })
+  originalUrl: z
+    .string({ required_error: "OriginalUrl is required" })
+    .url({ message: "Invalid URL format" })
 });
 
-export const validateUrl = (req: Request, res: Response, next: NextFunction): void => {
-  const result = urlSchema.safeParse(req.body);
+export const validateUrlInput = (body: { originalUrl: string }): string | null => {
+  const result = urlSchema.safeParse(body);
   if (!result.success) {
-    return next(new Error(result.error.errors[0].message));
+    return result.error.errors.map(err => `${err.message}`).join(", ");
   }
-  next();
+  return null;
 };
