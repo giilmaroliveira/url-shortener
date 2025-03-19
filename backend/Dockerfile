@@ -18,4 +18,4 @@ COPY package.json package-lock.json ./
 
 EXPOSE 3000
 
-CMD npm run db:deploy && npm start
+CMD npm run db:deploy && npm run db:seed && npm start
